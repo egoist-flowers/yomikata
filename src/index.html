@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' blob:; img-src 'self' data: blob:; font-src 'self' data: blob:; connect-src 'self' blob:; frame-src 'self' blob: data:; media-src 'self' blob: data:; worker-src 'self' blob:;">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yomikata よみかた</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="paper">
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/><path d="M8 7h8"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3Z"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.6v-.2h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M15 4v16"/><path d="M18 9h.01M18 13h.01"/></symbol>
+    <symbol id="i-sidebar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+    <symbol id="i-columns" viewBox="0 0 24 24"><rect x="3" y="4" width="7.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="7.5" height="16" rx="1.5"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18 6a8.5 8.5 0 0 1 0 12"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14"/><path d="M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-type" viewBox="0 0 24 24"><path d="M4 6V4h16v2M12 4v16M8 20h8"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M6.1 9a7 7 0 0 1 11.2-2.1L20 9M4 15l2.7 2.1A7 7 0 0 0 17.9 15"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 8-8M16 4h4v4M14 7l2 2"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 19h16"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3Z"/><path d="M12 9v5M12 17.5v.1"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="m3 3 18 18M10.6 5.2A10.7 10.7 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-2.2 3.1M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7a10 10 0 0 0 4.4-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.1"/></symbol>
+    <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+  </svg>
+
+  <div class="app-shell" id="app-shell">
+    <header class="topbar">
+      <button class="brand" id="brand-button" title="回到书架">
+        <span class="brand-mark">読</span>
+        <span class="brand-words"><b>よみかた</b><small>YOMIKATA</small></span>
+      </button>
+
+      <div class="topbar-book" id="topbar-book">
+        <span class="status-dot" id="book-status-dot"></span>
+        <span class="topbar-book-title" id="topbar-book-title">尚未打开书籍</span>
+        <span class="topbar-divider">/</span>
+        <span class="topbar-chapter" id="topbar-chapter">读一页，查一个词</span>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="icon-button" id="btn-sidebar" title="显示 / 隐藏书架 (Ctrl+B)" aria-label="显示或隐藏书架">
+          <svg><use href="#i-sidebar"></use></svg>
+        </button>
+        <button class="text-button" id="btn-notebook" title="生词本">
+          <svg><use href="#i-star"></use></svg>
+          <span>生词本</span>
+          <span class="count-badge" id="vocab-count" hidden>0</span>
+        </button>
+        <button class="text-button" id="btn-settings" title="设置">
+          <svg><use href="#i-settings"></use></svg>
+          <span>设置</span>
+        </button>
+        <button class="open-button" id="btn-open-top">
+          <svg><use href="#i-plus"></use></svg>
+          <span>打开 EPUB</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="workspace" id="workspace" data-panel="open">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-tabs" role="tablist" aria-label="侧栏">
+          <button class="sidebar-tab is-active" id="tab-shelf" data-view="shelf" role="tab" aria-selected="true">书架</button>
+          <button class="sidebar-tab" id="tab-toc" data-view="toc" role="tab" aria-selected="false">目录</button>
+          <span class="sidebar-tab-glow" id="sidebar-tab-glow"></span>
+        </div>
+
+        <div class="sidebar-scroll">
+          <section class="sidebar-view" id="view-shelf">
+            <div class="section-heading">
+              <span class="section-kicker">LIBRARY</span>
+              <button class="tiny-button" id="btn-open-side">导入</button>
+            </div>
+            <div class="recent-list" id="recent-list"></div>
+            <div class="shelf-empty" id="shelf-empty">
+              <div class="shelf-empty-mark">読</div>
+              <p>书架还是空的</p>
+              <span>打开一本日文 EPUB 开始阅读。你的书只留在这台电脑上。</span>
+            </div>
+            <div class="shortcut-hint">
+              <span class="shortcut-keys"><kbd>Ctrl</kbd><kbd>O</kbd></span>
+              <span>快速打开书籍</span>
+            </div>
+          </section>
+
+          <section class="sidebar-view" id="view-toc" hidden>
+            <div class="book-mini" id="book-mini" hidden>
+              <div class="book-mini-cover" id="book-mini-cover"><span id="book-mini-glyph">読</span></div>
+              <div class="book-mini-meta">
+                <strong id="book-mini-title">未打开书籍</strong>
+                <span id="book-mini-author">日文 EPUB</span>
+                <div class="book-mini-progress"><i id="book-mini-progress"></i></div>
+              </div>
+            </div>
+            <div class="section-heading toc-heading">
+              <span class="section-kicker">CONTENTS</span>
+              <span class="toc-count" id="toc-count"></span>
+            </div>
+            <nav class="toc-list" id="toc-list" aria-label="书籍目录"></nav>
+            <div class="toc-empty" id="toc-empty">
+              <p>还没有打开书籍</p>
+              <span>导入 EPUB 后，这里会出现章节目录。</span>
+            </div>
+          </section>
+        </div>
+
+        <div class="sidebar-foot">
+          <button class="sidebar-open" id="btn-open-sidebar">
+            <svg><use href="#i-book"></use></svg>
+            <span><b>打开 EPUB</b><small>或把文件拖进窗口</small></span>
+            <svg class="arrow"><use href="#i-arrow-right"></use></svg>
+          </button>
+          <button class="api-status" id="api-status" title="API 设置">
+            <span class="api-dot" id="api-dot"></span>
+            <span id="api-status-text">检查 API 配置…</span>
+            <svg><use href="#i-chevron-right"></use></svg>
+          </button>
+        </div>
+      </aside>
+
+      <main class="reader" id="reader">
+        <div class="reader-toolbar">
+          <div class="reader-toolbar-left">
+            <div class="nav-pair">
+              <button class="icon-button" id="btn-prev" title="上一页 (←)" aria-label="上一页" disabled>
+                <svg><use href="#i-chevron-left"></use></svg>
+              </button>
+              <button class="icon-button" id="btn-next" title="下一页 (→)" aria-label="下一页" disabled>
+                <svg><use href="#i-chevron-right"></use></svg>
+              </button>
+            </div>
+            <div class="chapter-block">
+              <span class="chapter-kicker" id="chapter-kicker">READING DESK</span>
+              <strong class="chapter-title" id="chapter-title">准备开始阅读</strong>
+            </div>
+          </div>
+          <div class="reader-toolbar-right">
+            <div class="tool-cluster" aria-label="排版">
+              <button class="icon-button compact" id="btn-font-down" title="缩小字号" aria-label="缩小字号">A−</button>
+              <span class="tool-value" id="font-value">19</span>
+              <button class="icon-button compact" id="btn-font-up" title="放大字号" aria-label="放大字号">A+</button>
+            </div>
+            <button class="icon-button" id="btn-theme" title="切换阅读主题" aria-label="切换阅读主题">
+              <svg><use href="#i-sun"></use></svg>
+            </button>
+            <button class="icon-button" id="btn-layout" title="切换横向翻页 / 原书排版" aria-label="切换横向翻页或原书排版">
+              <svg><use href="#i-columns"></use></svg>
+            </button>
+            <button class="icon-button" id="btn-panel" title="显示 / 隐藏查词面板 (Ctrl+J)" aria-label="显示或隐藏查词面板">
+              <svg><use href="#i-panel"></use></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="viewer-wrap" id="viewer-wrap">
+          <div class="viewer" id="viewer" aria-label="EPUB 阅读区"></div>
+
+          <section class="landing" id="landing">
+            <div class="landing-copy">
+              <span class="eyebrow"><i></i> JAPANESE EPUB READER</span>
+              <h1>读不懂的那一个词，<br><em>现在就懂。</em></h1>
+              <p class="landing-lede">打开日文 EPUB，划取任意词语或句子。只把选中的文字发给 DeepSeek，换回中文释义、假名读音，以及每个汉字的音读与训读。</p>
+              <div class="landing-actions">
+                <button class="primary-button" id="btn-open-hero">
+                  <svg><use href="#i-book"></use></svg>
+                  选择一本 EPUB
+                </button>
+                <button class="ghost-button" id="btn-settings-hero">
+                  <svg><use href="#i-key"></use></svg>
+                  配置 API
+                </button>
+              </div>
+              <ul class="landing-features">
+                <li><span>01</span><b>只查划词</b>不翻译整本书</li>
+                <li><span>02</span><b>读音拆解</b>音读 · 训读 · 词中读法</li>
+                <li><span>03</span><b>随手收藏</b>生词本与 Anki CSV</li>
+              </ul>
+            </div>
+
+            <div class="landing-art" aria-hidden="true">
+              <div class="paper-sheet">
+                <div class="paper-top"><span>第一話</span><span>吾輩は猫である</span></div>
+                <p class="vertical-text">吾輩は<span class="marked">猫</span>である。名前はまだ無い。</p>
+                <p class="vertical-text small">どこで生れたかとんと見当がつかぬ。</p>
+                <span class="paper-folio">一</span>
+              </div>
+              <div class="float-card">
+                <span class="float-kicker">DEEPSEEK · 划词</span>
+                <div class="float-word">猫 <span>ねこ</span></div>
+                <div class="float-mean">猫。也常用来形容自由散漫、难以捉摸的人。</div>
+                <div class="float-kanji"><b>猫</b><span>音 ビョウ</span><span>訓 ねこ</span></div>
+              </div>
+              <div class="seal-stamp">読</div>
+            </div>
+          </section>
+
+          <div class="reader-loading" id="reader-loading" hidden>
+            <div class="loading-seal">読</div>
+            <p>正在展开书页…</p>
+            <span>长篇 EPUB 的目录分析可能需要几秒钟</span>
+          </div>
+
+          <div class="selection-popover" id="selection-popover" hidden>
+            <div class="selection-quote" id="selection-quote"></div>
+            <button class="selection-lookup" id="selection-lookup">
+              <svg><use href="#i-sparkle"></use></svg>
+              <span>解释</span>
+            </button>
+            <button class="selection-speak" id="selection-speak" title="朗读选中的日语" aria-label="朗读选中的日语">
+              <svg><use href="#i-volume"></use></svg>
+            </button>
+          </div>
+          <div class="selection-live" id="selection-live" hidden aria-live="polite">
+            已选 <b id="selection-live-count">1</b> 字
+          </div>
+        </div>
+
+        <footer class="reader-footer">
+          <div class="progress-wrap">
+            <input class="progress-range" id="progress-range" type="range" min="0" max="1000" value="0" step="1" disabled aria-label="全书阅读进度">
+            <div class="progress-track"><i id="progress-fill"></i></div>
+          </div>
+          <span class="progress-percent" id="progress-percent">0%</span>
+          <span class="locations-status" id="locations-status">等待打开书籍</span>
+          <span class="footer-hint"><span class="shortcut-keys"><kbd>←</kbd><kbd>→</kbd><kbd>Space</kbd></span> 翻页 · 滚轮翻页 · 划词查询</span>
+        </footer>
+      </main>
+
+      <aside class="lookup-panel" id="lookup-panel" aria-label="查词面板">
+        <header class="panel-head">
+          <div>
+            <span class="panel-kicker">DEEPSEEK LOOKUP</span>
+            <h2>划词查词</h2>
+          </div>
+          <button class="icon-button" id="btn-panel-close" title="收起面板" aria-label="收起查词面板">
+            <svg><use href="#i-x"></use></svg>
+          </button>
+        </header>
+
+        <div class="panel-body" id="panel-body">
+          <div class="panel-state panel-empty" id="panel-empty">
+            <div class="orbit-mark">
+              <span class="orbit-ring"></span>
+              <span class="orbit-ring second"></span>
+              <span class="orbit-core">読</span>
+            </div>
+            <h3>选中一个词，<br>剩下的交给它。</h3>
+            <p>在左侧正文中拖动选择任意日文词语或句子。只会把这一段发给 DeepSeek，不会上传整本书。</p>
+            <div class="mini-demo">
+              <div class="mini-demo-word">猫 <span>ねこ</span></div>
+              <div class="mini-demo-rows">
+                <span>中文</span><b>猫</b>
+                <span>音读</span><b>ビョウ</b>
+                <span>训读</span><b>ねこ</b>
+              </div>
+            </div>
+            <div class="panel-empty-note" id="panel-empty-note">
+              <svg><use href="#i-sparkle"></use></svg>
+              <span>划词即查已开启，选中后会自动查询；可在设置中关闭。</span>
+            </div>
+            <button class="api-notice" id="panel-api-notice" hidden>
+              <span class="api-notice-icon"><svg><use href="#i-key"></use></svg></span>
+              <span><b>还差一步：配置 API Key</b><small>点击这里填写 DeepSeek API Key</small></span>
+              <svg class="api-notice-arrow"><use href="#i-chevron-right"></use></svg>
+            </button>
+          </div>
+
+          <div class="panel-state panel-loading" id="panel-loading" hidden>
+            <div class="loading-kicker"><span></span> 正在查这个词</div>
+            <div class="loading-selection" id="loading-selection">猫</div>
+            <div class="skeleton-lines">
+              <i style="width:34%"></i><i style="width:82%"></i><i style="width:66%"></i>
+              <i style="width:88%"></i><i style="width:48%"></i>
+            </div>
+            <div class="loading-note"><span class="pulse-dot"></span> 正在向 DeepSeek 请求释义与读音…</div>
+            <button class="text-link" id="btn-cancel-lookup">不等了</button>
+          </div>
+
+          <div class="panel-state panel-error" id="panel-error" hidden>
+            <div class="error-mark"><svg><use href="#i-alert"></use></svg></div>
+            <h3 id="error-title">查询失败</h3>
+            <p id="error-message">请检查网络或 API 设置后重试。</p>
+            <div class="error-actions">
+              <button class="primary-button small" id="btn-retry">重试</button>
+              <button class="ghost-button small" id="btn-error-settings">检查设置</button>
+            </div>
+          </div>
+
+          <article class="panel-result" id="panel-result" hidden aria-live="polite"></article>
+        </div>
+
+        <footer class="panel-foot" id="panel-foot">
+          <span class="panel-foot-dot"></span>
+          <span>仅发送选中文字</span>
+          <span class="panel-foot-sep">·</span>
+          <span>释义由 AI 生成，请结合语境判断</span>
+        </footer>
+      </aside>
+    </div>
+  </div>
+
+  <div class="modal-layer" id="settings-modal" hidden>
+    <div class="modal-backdrop" data-close="settings"></div>
+    <section class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <header class="modal-head">
+        <div>
+          <span class="modal-kicker">PREFERENCES</span>
+          <h2 id="settings-title">设置</h2>
+        </div>
+        <button class="icon-button" data-close="settings" aria-label="关闭设置"><svg><use href="#i-x"></use></svg></button>
+      </header>
+
+      <div class="settings-body">
+        <section class="settings-section">
+          <div class="settings-heading">
+            <div><span class="settings-index">01</span><h3>DeepSeek API</h3></div>
+            <span class="status-pill" id="key-status-pill">未配置</span>
+          </div>
+          <div class="field-grid">
+            <label class="field wide">
+              <span>API Key</span>
+              <div class="input-with-action">
+                <input id="input-api-key" type="password" autocomplete="off" spellcheck="false" placeholder="sk-…">
+                <button class="inside-button" id="btn-toggle-key" type="button" title="显示 / 隐藏 Key" aria-label="显示或隐藏 API Key"><svg><use href="#i-eye"></use></svg></button>
+              </div>
+              <small id="key-hint">保存在本机，使用 Windows 系统加密。留空表示不修改已保存的 Key。</small>
+            </label>
+            <label class="field">
+              <span>API 地址</span>
+              <input id="input-base-url" type="url" spellcheck="false" placeholder="https://api.deepseek.com">
+              <small>默认即可。兼容 OpenAI 格式的接口也可使用。</small>
+            </label>
+            <label class="field">
+              <span>模型</span>
+              <input id="input-model" type="text" list="model-suggestions" spellcheck="false" placeholder="deepseek-chat">
+              <datalist id="model-suggestions">
+                <option value="deepseek-chat"></option>
+                <option value="deepseek-reasoner"></option>
+              </datalist>
+              <small>推荐 deepseek-chat：速度快，稳定支持 JSON 结构化输出。</small>
+            </label>
+          </div>
+          <div class="inline-actions">
+            <button class="ghost-button small" id="btn-test-api"><span class="button-spinner" hidden></span>测试连接</button>
+            <button class="text-link danger" id="btn-clear-key">清除 Key</button>
+            <button class="text-link" id="btn-get-key">获取 API Key <svg><use href="#i-external"></use></svg></button>
+            <span class="test-result" id="test-result"></span>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <div class="settings-heading">
+            <div><span class="settings-index">02</span><h3>查询方式</h3></div>
+          </div>
+          <div class="toggle-list">
+            <label class="toggle-row">
+              <span><b>划词即查</b><small>选中文字后自动查询。较长段落会等你点击确认，避免误触。</small></span>
+              <input type="checkbox" id="toggle-auto">
+              <i class="switch"></i>
+            </label>
+            <label class="toggle-row">
+              <span><b>缓存查询结果</b><small>同一个词再次划过时直接显示，不重复消耗 API 用量。</small></span>
+              <input type="checkbox" id="toggle-cache">
+              <i class="switch"></i>
+            </label>
+            <label class="toggle-row">
+              <span><b>启动时恢复上次阅读</b><small>自动打开上次的书，并回到上次的位置。</small></span>
+              <input type="checkbox" id="toggle-reopen">
+              <i class="switch"></i>
+            </label>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <div class="settings-heading">
+            <div><span class="settings-index">03</span><h3>阅读排版</h3></div>
+          </div>
+          <div class="setting-group">
+            <span class="group-label">主题</span>
+            <div class="theme-options" id="theme-options">
+              <button class="theme-option" data-theme="paper"><i class="swatch paper"></i><span>纸白</span></button>
+              <button class="theme-option" data-theme="sepia"><i class="swatch sepia"></i><span>茶褐</span></button>
+              <button class="theme-option" data-theme="night"><i class="swatch night"></i><span>夜读</span></button>
+            </div>
+          </div>
+          <div class="range-grid">
+            <label class="range-field">
+              <span>字号 <b id="label-font-size">19 px</b></span>
+              <input id="range-font-size" type="range" min="15" max="28" step="1" value="19">
+            </label>
+            <label class="range-field">
+              <span>行距 <b id="label-line-height">1.95</b></span>
+              <input id="range-line-height" type="range" min="1.5" max="2.4" step="0.05" value="1.95">
+            </label>
+          </div>
+          <div class="setting-group">
+            <span class="group-label">字体</span>
+            <div class="segmented" id="font-options">
+              <button data-font="serif">明朝体</button>
+              <button data-font="sans">黑体</button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <span class="group-label">排版模式</span>
+            <div class="layout-options" id="layout-options">
+              <button data-layout="horizontal"><b>横向翻页</b><small>统一横排，字号稳定，适合查词学习。</small></button>
+              <button data-layout="original"><b>原书排版</b><small>保留出版社样式，以滚动方式阅读，适合竖排小说。</small></button>
+            </div>
+            <p class="setting-hint">检测到竖排书籍时会自动使用原书排版；横向书籍仍按上面的默认选择。</p>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <div class="settings-heading">
+            <div><span class="settings-index">04</span><h3>本机数据</h3></div>
+          </div>
+          <p class="settings-paragraph">书籍文件不会被复制。生词本、查询历史、阅读进度和 API Key 都只保存在这台电脑上。卸载应用不会自动删除这些数据。</p>
+          <div class="inline-actions">
+            <button class="ghost-button small" id="btn-clear-cache">清除查询缓存 <span id="cache-size"></span></button>
+            <span class="settings-version" id="settings-version"></span>
+          </div>
+        </section>
+      </div>
+
+      <footer class="modal-foot">
+        <span class="modal-foot-note">更改会在保存后生效</span>
+        <div>
+          <button class="ghost-button" data-close="settings">取消</button>
+          <button class="primary-button" id="btn-save-settings">保存设置</button>
+        </div>
+      </footer>
+    </section>
+  </div>
+
+  <div class="modal-layer" id="notebook-modal" hidden>
+    <div class="modal-backdrop" data-close="notebook"></div>
+    <section class="modal notebook-modal" role="dialog" aria-modal="true" aria-labelledby="notebook-title">
+      <header class="modal-head">
+        <div>
+          <span class="modal-kicker">YOUR WORDS</span>
+          <h2 id="notebook-title">生词本</h2>
+        </div>
+        <div class="modal-head-actions">
+          <button class="ghost-button small" id="btn-export">
+            <svg><use href="#i-download"></use></svg>导出 CSV
+          </button>
+          <button class="icon-button" data-close="notebook" aria-label="关闭生词本"><svg><use href="#i-x"></use></svg></button>
+        </div>
+      </header>
+
+      <div class="notebook-toolbar">
+        <div class="segmented notebook-tabs">
+          <button data-tab="vocab" class="is-active">生词 <span id="notebook-count">0</span></button>
+          <button data-tab="history">历史</button>
+        </div>
+        <label class="search-box">
+          <svg><use href="#i-search"></use></svg>
+          <input id="notebook-search" type="search" placeholder="搜索词语、读音或释义…" autocomplete="off">
+        </label>
+      </div>
+
+      <div class="notebook-body">
+        <div class="entry-list" id="vocab-list"></div>
+        <div class="entry-list" id="history-list" hidden></div>
+        <div class="notebook-empty" id="notebook-empty">
+          <div class="empty-seal">詞</div>
+          <h3>还没有收藏生词</h3>
+          <p>查到想记住的词时，点击结果右上角的星标，就会出现在这里。</p>
+          <button class="primary-button small" data-close="notebook">继续阅读</button>
+        </div>
+      </div>
+
+      <footer class="modal-foot">
+        <span class="modal-foot-note" id="notebook-footnote">生词本保存在本机</span>
+        <button class="text-link" id="btn-clear-vocab">清空生词本</button>
+      </footer>
+    </section>
+  </div>
+
+  <div class="modal-layer confirm-layer" id="confirm-modal" hidden>
+    <div class="modal-backdrop" data-close="confirm"></div>
+    <section class="modal confirm-modal" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title">
+      <div class="confirm-icon"><svg><use href="#i-alert"></use></svg></div>
+      <h2 id="confirm-title">确认操作</h2>
+      <p id="confirm-message"></p>
+      <div class="confirm-actions">
+        <button class="ghost-button" data-close="confirm">取消</button>
+        <button class="danger-button" id="confirm-yes">确认</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast-host" id="toast-host" aria-live="polite"></div>
+  <div class="drop-overlay" id="drop-overlay" hidden>
+    <div class="drop-card"><span>読</span><b>松手，打开这本书</b><small>支持 .epub 文件</small></div>
+  </div>
+
+  <script src="vendor/jszip.min.js"></script>
+  <script src="vendor/epub.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

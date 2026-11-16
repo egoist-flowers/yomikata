@@ -1,0 +1,77 @@
+{
+  "name": "yomikata",
+  "version": "1.0.0",
+  "description": "Yomikata — a Japanese EPUB reader with selection-only DeepSeek lookups",
+  "main": "electron/main.js",
+  "author": "Yomikata",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "test:e2e": "node test/e2e.mjs",
+    "dist": "electron-builder --win nsis",
+    "pack": "electron-builder --dir"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "38.8.6",
+    "electron-builder": "26.18.0",
+    "epubjs": "0.3.93",
+    "jszip": "3.10.1",
+    "playwright-core": "1.64.1"
+  },
+  "build": {
+    "appId": "com.yomikata.reader",
+    "productName": "Yomikata",
+    "copyright": "Copyright © 2026 Yomikata",
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "electron/**/*",
+      "src/**/*",
+      "assets/icon.png",
+      "assets/icon.ico",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico",
+      "artifactName": "Yomikata-Setup-${version}.${ext}"
+    },
+    "fileAssociations": [
+      {
+        "ext": "epub",
+        "name": "EPUB 电子书",
+        "description": "Yomikata 日文 EPUB 阅读器",
+        "icon": "assets/icon.ico",
+        "role": "Viewer"
+      }
+    ],
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": false,
+      "shortcutName": "Yomikata よみかた",
+      "installerLanguages": [
+        "zh_CN",
+        "ja_JP",
+        "en_US"
+      ],
+      "language": "2052",
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}

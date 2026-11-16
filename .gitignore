@@ -1,0 +1,12 @@
+node_modules/
+dist/
+test/userdata-*/
+test/shots/
+.build-bin/
+*.log
+*.tgz
+.env
+.env.*
+secret.json
+.DS_Store
+Thumbs.db
