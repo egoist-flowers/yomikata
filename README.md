@@ -36,7 +36,7 @@
 需要 Node.js 22+ 和 pnpm。
 
 ```bash
-git clone <your-repo-url> yomikata
+git clone https://github.com/egoist-flowers/yomikata.git yomikata
 cd yomikata
 pnpm install
 pnpm start
